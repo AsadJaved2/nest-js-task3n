@@ -61,7 +61,7 @@ export class ProductRepository extends Repository<Product>{
       try {
         const product = await this.find();
         return product;
-      } catch (error) {
+      } catch(error) {
         throw new InternalServerErrorException();
       }
     }
