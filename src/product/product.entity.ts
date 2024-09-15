@@ -1,28 +1,24 @@
+import { Entity, Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Category } from 'src/categories/cat.entity';
 import { User } from 'src/auth/user.entity';
-import { Exclude } from 'class-transformer';
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 
 @Entity()
 export class Product {
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-@PrimaryGeneratedColumn('uuid')
-    id: string;
+  @Column()
+  title: string;
 
-@Column() 
-    title: string;
+  @Column()
+  description: string;
 
-@Column() 
-    description: string;
+  @Column('decimal')
+  price: number;
 
+  @ManyToOne(() => Category, (category) => category.products, { eager: false })
+  category: Category;
 
-@Column('decimal') 
-     price: number;
-     
-// @Column('uuid') 
-//      userId: string;
-
-@ManyToOne((_type) => User, (user) => user.products, {eager: false} )
-@Exclude({toPlainOnly:true})
-user: User;     
-
+  @ManyToOne(() => User, (user) => user.products, { eager: false })
+  user: User;
 }

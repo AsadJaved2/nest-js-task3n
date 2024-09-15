@@ -1,4 +1,10 @@
-import { IsString, Matches, MinLength, MaxLength, IsNotEmpty } from 'class-validator';
+import {
+  IsString,
+  Matches,
+  MinLength,
+  MaxLength,
+  IsNotEmpty,
+} from 'class-validator';
 
 export class AuthCredentialsDto {
   @IsNotEmpty()
@@ -7,7 +13,6 @@ export class AuthCredentialsDto {
   @MaxLength(20)
   username: string;
 
-  
   @IsNotEmpty()
   @IsString()
   @MinLength(8)

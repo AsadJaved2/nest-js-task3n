@@ -1,16 +1,26 @@
-import { IsNotEmpty, IsString, MaxLength } from "class-validator";
+import {
+  IsNotEmpty,
+  IsString,
+  IsNumber,
+  MaxLength,
+  IsUUID,
+} from 'class-validator';
 
-export class ProductDto{
-    @IsNotEmpty()
-    @IsString()
-    title: string;
+export class ProductDto {
+  @IsNotEmpty()
+  @IsString()
+  title: string;
 
-    @IsNotEmpty()
-    @IsString()
-    @MaxLength(50)
-    description: string;
+  @IsNotEmpty()
+  @IsString()
+  @MaxLength(50)
+  description: string;
 
-    @IsNotEmpty()
-    price: number;
+  @IsNotEmpty()
+  @IsNumber()
+  price: number;
 
+  @IsNotEmpty()
+  @IsUUID()
+  categoryId: string;
 }
