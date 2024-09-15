@@ -1,28 +1,29 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
-import { DataSource, Repository } from 'typeorm';
+import { DataSource, EntityManager, Repository } from 'typeorm';
 import { Product } from './product.entity';
 import { ProductDto } from './Types/product.dto';
 import { User } from 'src/auth/user.entity';
 import { GetUser } from 'src/auth/jwt/get-user.decorator';
-import { Category } from 'src/categories/cat.entity';
+import { CategoryRepository } from 'src/categories/cat.repository';
 
 @Injectable()
 export class ProductRepository extends Repository<Product> {
-  constructor(private dataSource: DataSource) {
-    super(Product, dataSource.createEntityManager());
+  constructor(
+    private entityManager: EntityManager,
+    private categoryRepository: CategoryRepository, 
+  ) {
+    super(Product, entityManager);
   }
-
   async createProduct(
     productDto: ProductDto,
     @GetUser() user: User,
   ): Promise<Product> {
     try {
-      const { title, description, price, categoryId } = productDto;
+      const { title, description, price, categoryName } = productDto;
 
-      // Fetch category by id to associate with the product
-      const category = await this.dataSource
-        .getRepository(Category)
-        .findOne({ where: { id: categoryId } });
+      // Fetch category by name
+      const category = await this.categoryRepository
+        .findOne({ where: { name: categoryName } });
       if (!category) {
         throw new InternalServerErrorException('Category not Found');
       }
@@ -105,8 +106,7 @@ export class ProductRepository extends Repository<Product> {
 
   async getProductsByCategoryId(categoryId: string): Promise<Product[]> {
     try {
-      const category = await this.dataSource
-        .getRepository(Category)
+      const category = await this.categoryRepository
         .findOne({ where: { id: categoryId } });
       if (!category) {
         throw new InternalServerErrorException('Category Not FOund');

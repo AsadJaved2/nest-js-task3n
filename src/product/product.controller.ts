@@ -21,6 +21,7 @@ import { UUID } from 'typeorm/driver/mongodb/bson.typings';
 @Controller('product')
 @UseGuards(AuthGuard('jwt'))
 export class ProductController {
+ 
   constructor(@Inject() private prodService: ProductService) {}
   @Post('/createProduct')
   async createProduct(

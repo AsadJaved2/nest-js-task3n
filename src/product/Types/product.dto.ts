@@ -21,6 +21,6 @@ export class ProductDto {
   price: number;
 
   @IsNotEmpty()
-  @IsUUID()
-  categoryId: string;
+  @IsString()
+  categoryName: string;
 }

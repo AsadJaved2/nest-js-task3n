@@ -16,9 +16,9 @@ export class Product {
   @Column('decimal')
   price: number;
 
-  @ManyToOne(() => Category, (category) => category.products, { eager: false })
+  @ManyToOne(() => Category, (category) => category.products, { eager: true })
   category: Category;
 
-  @ManyToOne(() => User, (user) => user.products, { eager: false })
+  @ManyToOne(() => User, (user) => user.products, { eager: true })
   user: User;
 }

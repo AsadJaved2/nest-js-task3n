@@ -5,12 +5,15 @@ import { ProductDto } from './Types/product.dto';
 import { User } from 'src/auth/user.entity';
 import { Product } from './product.entity';
 import { GetUser } from 'src/auth/jwt/get-user.decorator';
+import { CategoryRepository } from 'src/categories/cat.repository';
 
 @Injectable()
 export class ProductService {
   constructor(
     @InjectRepository(ProductRepository)
     private productRepository: ProductRepository,
+    @InjectRepository(CategoryRepository)
+    private categoryRepository:CategoryRepository,
   ) {}
 
   async createProduct(
@@ -18,7 +21,7 @@ export class ProductService {
     @GetUser() user: User,
   ): Promise<Product> {
     try {
-      return this.productRepository.createProduct(productDto, user);
+      return await this.productRepository.createProduct(productDto, user);
     } catch (error) {
       throw new InternalServerErrorException('Failed to Create Product');
     }
