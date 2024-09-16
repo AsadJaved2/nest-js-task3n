@@ -2,9 +2,9 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { DataSource, EntityManager, Repository } from 'typeorm';
 import { Product } from './product.entity';
 import { ProductDto } from './Types/product.dto';
-import { User } from 'src/auth/user.entity';
-import { GetUser } from 'src/auth/jwt/get-user.decorator';
-import { CategoryRepository } from 'src/categories/cat.repository';
+import { User } from '../auth/user.entity';
+import { GetUser } from '../auth/jwt/get-user.decorator';
+import { CategoryRepository } from '../categories/cat.repository';
 
 @Injectable()
 export class ProductRepository extends Repository<Product> {
@@ -16,7 +16,7 @@ export class ProductRepository extends Repository<Product> {
   }
   async createProduct(
     productDto: ProductDto,
-    @GetUser() user: User,
+     user: User,
   ): Promise<Product> {
     try {
       const { title, description, price, categoryName } = productDto;
@@ -60,7 +60,7 @@ export class ProductRepository extends Repository<Product> {
     }
   }
 
-  async deleteProduct(id: string, @GetUser() user: User): Promise<Product> {
+  async deleteProduct(id: string,user: User): Promise<Product> {
     try {
       const product = await this.findOne({ where: { id } });
       await this.delete(product);
@@ -70,7 +70,7 @@ export class ProductRepository extends Repository<Product> {
     }
   }
 
-  async getProduct(id: string, @GetUser() user: User): Promise<Product> {
+  async getProduct(id: string, user: User): Promise<Product> {
     try {
       const product = await this.findOne({ where: { id } });
       return product;
@@ -79,7 +79,7 @@ export class ProductRepository extends Repository<Product> {
     }
   }
 
-  async getAllProducts(@GetUser() user: User): Promise<Product[]> {
+  async getAllProducts(user: User): Promise<Product[]> {
     try {
       const product = await this.find();
       return product;

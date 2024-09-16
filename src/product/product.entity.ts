@@ -1,6 +1,6 @@
 import { Entity, Column, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
-import { Category } from 'src/categories/cat.entity';
-import { User } from 'src/auth/user.entity';
+import { Category } from '../categories/cat.entity';
+import { User } from '../auth/user.entity';
 
 @Entity()
 export class Product {
@@ -16,9 +16,9 @@ export class Product {
   @Column('decimal')
   price: number;
 
-  @ManyToOne(() => Category, (category) => category.products, { eager: true })
+  @ManyToOne(() => Category, (category) => category.products, { eager: false })
   category: Category;
 
-  @ManyToOne(() => User, (user) => user.products, { eager: true })
+  @ManyToOne(() => User, (user) => user.products, { eager: false })
   user: User;
 }

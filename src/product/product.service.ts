@@ -2,10 +2,10 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProductRepository } from './product.repository';
 import { ProductDto } from './Types/product.dto';
-import { User } from 'src/auth/user.entity';
+import { User } from '../auth/user.entity';
 import { Product } from './product.entity';
-import { GetUser } from 'src/auth/jwt/get-user.decorator';
-import { CategoryRepository } from 'src/categories/cat.repository';
+import { GetUser } from '../auth/jwt/get-user.decorator';
+import { CategoryRepository } from '../categories/cat.repository';
 
 @Injectable()
 export class ProductService {
@@ -38,14 +38,14 @@ export class ProductService {
     }
   }
 
-  async deleteProduct(id: string, @GetUser() user: User): Promise<Product> {
+  async deleteProduct(id: string,user: User): Promise<Product> {
     try {
       return this.productRepository.deleteProduct(id, user);
     } catch (error) {
       throw new InternalServerErrorException('Failed to Delete Product');
     }
   }
-  async getProduct(id: string, @GetUser() user: User): Promise<Product> {
+  async getProduct(id: string,user: User): Promise<Product> {
     try {
       return this.productRepository.getProduct(id, user);
     } catch (error) {

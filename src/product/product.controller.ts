@@ -13,8 +13,8 @@ import {
 import { ProductService } from './product.service';
 import { Product } from './product.entity';
 import { ProductDto } from './Types/product.dto';
-import { GetUser } from 'src/auth/jwt/get-user.decorator';
-import { User } from 'src/auth/user.entity';
+import { GetUser } from '../auth/jwt/get-user.decorator';
+import { User } from '../auth/user.entity';
 import { AuthGuard } from '@nestjs/passport';
 import { UUID } from 'typeorm/driver/mongodb/bson.typings';
 

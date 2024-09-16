@@ -1,12 +1,16 @@
 import { Injectable } from '@nestjs/common';
-import { Category } from 'src/categories/cat.entity';
+import { Category } from '../categories/cat.entity';
 import { DataSource } from 'typeorm';
 
 @Injectable()
-export class categorySeeder {
-  constructor(private dataSource: DataSource) {}
+export class CategorySeeder {
+  constructor(private readonly dataSource: DataSource) {}
 
   async seed() {
+    await this.seedCategories();
+  }
+
+  private async seedCategories() {
     const categoryRepository = this.dataSource.getRepository(Category);
 
     const categories = [
@@ -15,13 +19,21 @@ export class categorySeeder {
       { name: 'Electronics' },
     ];
 
-    for (const category of categories) {
+    for (const categoryData of categories) {
       const existingCategory = await categoryRepository.findOneBy({
-        name: category.name,
+        name: categoryData.name,
       });
+
       if (!existingCategory) {
-        await categoryRepository.save(category);
+        const newCategory = new Category();
+        newCategory.name = categoryData.name;
+        await categoryRepository.save(newCategory);
+        console.log(`Category ${newCategory.name} has been added.`);
+      } else {
+        console.log(`Category ${existingCategory.name} already exists.`);
       }
     }
+
+    console.log('Categories seeding completed.');
   }
 }

@@ -17,7 +17,6 @@ export class ProductDto {
   description: string;
 
   @IsNotEmpty()
-  @IsNumber()
   price: number;
 
   @IsNotEmpty()
