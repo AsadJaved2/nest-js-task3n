@@ -21,6 +21,8 @@ export class ProductService {
     @GetUser() user: User,
   ): Promise<Product> {
     try {
+console.log('service');
+
       return await this.productRepository.createProduct(productDto, user);
     } catch (error) {
       throw new InternalServerErrorException('Failed to Create Product');

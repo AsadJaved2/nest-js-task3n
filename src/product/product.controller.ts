@@ -29,6 +29,8 @@ export class ProductController {
     @GetUser() user: User,
   ): Promise<Product> {
     try {
+console.log('constroller');
+
       const product = await this.prodService.createProduct(prodDTO, user);
       return product;
     } catch (error) {

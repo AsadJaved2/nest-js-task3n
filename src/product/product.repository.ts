@@ -22,8 +22,12 @@ export class ProductRepository extends Repository<Product> {
       const { title, description, price, categoryName } = productDto;
 
       // Fetch category by name
+console.log(categoryName);
+
       const category = await this.categoryRepository
-        .findOne({ where: { name: categoryName } });
+        .findOne({ where: { id: categoryName } });
+console.log(category);
+
       if (!category) {
         throw new InternalServerErrorException('Category not Found');
       }

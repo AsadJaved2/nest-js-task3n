@@ -5,7 +5,7 @@ import {
   MaxLength,
   IsUUID,
 } from 'class-validator';
-
+console.log('dto');
 export class ProductDto {
   @IsNotEmpty()
   @IsString()
