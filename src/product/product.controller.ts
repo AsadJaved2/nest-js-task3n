@@ -16,7 +16,7 @@ import { ProductDto } from './Types/product.dto';
 import { GetUser } from '../auth/jwt/get-user.decorator';
 import { User } from '../auth/user.entity';
 import { AuthGuard } from '@nestjs/passport';
-import { UUID } from 'typeorm/driver/mongodb/bson.typings';
+
 
 @Controller('product')
 @UseGuards(AuthGuard('jwt'))
@@ -29,7 +29,7 @@ export class ProductController {
     @GetUser() user: User,
   ): Promise<Product> {
     try {
-console.log('constroller');
+
 
       const product = await this.prodService.createProduct(prodDTO, user);
       return product;
@@ -105,9 +105,9 @@ console.log('constroller');
       throw new InternalServerErrorException('Failed to retrieve products');
     }
   }
-  @Get('category/:categoryId')
+  @Get('category/:id')
   async getProductsByCategoryId(
-    @Param('categoryId') categoryid: string,
+    @Param('id') categoryid: string,
   ): Promise<Product[]> {
     try {
       return this.prodService.getProductsByCategoryId(categoryid);

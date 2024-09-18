@@ -86,6 +86,7 @@ console.log(category);
   async getAllProducts(user: User): Promise<Product[]> {
     try {
       const product = await this.find();
+      console.log(product);
       return product;
     } catch (error) {
       throw new InternalServerErrorException();
@@ -110,12 +111,13 @@ console.log(category);
 
   async getProductsByCategoryId(categoryId: string): Promise<Product[]> {
     try {
+      
       const category = await this.categoryRepository
         .findOne({ where: { id: categoryId } });
       if (!category) {
         throw new InternalServerErrorException('Category Not FOund');
       }
-      return this.find({ where: { category } });
+      return this.find({ where: {category } });
     } catch (error) {
       throw new InternalServerErrorException('Failed to retrieve products');
     }
