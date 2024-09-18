@@ -4,24 +4,21 @@ import { ProductRepository } from './product.repository';
 import { ProductDto } from './Types/product.dto';
 import { User } from '../auth/user.entity';
 import { Product } from './product.entity';
-import { GetUser } from '../auth/jwt/get-user.decorator';
-import { CategoryRepository } from '../categories/cat.repository';
+
 
 @Injectable()
 export class ProductService {
   constructor(
     @InjectRepository(ProductRepository)
     private productRepository: ProductRepository,
-    @InjectRepository(CategoryRepository)
-    private categoryRepository:CategoryRepository,
+
   ) {}
 
   async createProduct(
     productDto: ProductDto,
-    @GetUser() user: User,
+    user: User,
   ): Promise<Product> {
     try {
-console.log('service');
 
       return await this.productRepository.createProduct(productDto, user);
     } catch (error) {
@@ -31,7 +28,7 @@ console.log('service');
   async updateProduct(
     id: string,
     productDto: ProductDto,
-    @GetUser() user: User,
+     user: User,
   ): Promise<Product> {
     try {
       return this.productRepository.updateProduct(id, productDto, user);
@@ -47,16 +44,16 @@ console.log('service');
       throw new InternalServerErrorException('Failed to Delete Product');
     }
   }
-  async getProduct(id: string,user: User): Promise<Product> {
+  async getProduct(id: string): Promise<Product> {
     try {
-      return this.productRepository.getProduct(id, user);
+      return this.productRepository.getProduct(id);
     } catch (error) {
       throw new InternalServerErrorException('Failed to Show Product');
     }
   }
-  async getAllProducts(@GetUser() user: User): Promise<Product[]> {
+  async getAllProducts(): Promise<Product[]> {
     try {
-      return this.productRepository.getAllProducts(user);
+      return this.productRepository.getAllProducts();
     } catch (error) {
       throw new InternalServerErrorException('Failed to Show Products');
     }

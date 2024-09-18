@@ -3,7 +3,7 @@ import { DataSource, EntityManager, Repository } from 'typeorm';
 import { Product } from './product.entity';
 import { ProductDto } from './Types/product.dto';
 import { User } from '../auth/user.entity';
-import { GetUser } from '../auth/jwt/get-user.decorator';
+
 import { CategoryRepository } from '../categories/cat.repository';
 
 @Injectable()
@@ -19,14 +19,10 @@ export class ProductRepository extends Repository<Product> {
      user: User,
   ): Promise<Product> {
     try {
-      const { title, description, price, categoryName } = productDto;
-
-      // Fetch category by name
-console.log(categoryName);
-
+      const { title, description, price, categoryName } = productDto;    
       const category = await this.categoryRepository
-        .findOne({ where: { id: categoryName } });
-console.log(category);
+        .findOne({ where: { id: categoryName } });  // Fetch category by name
+
 
       if (!category) {
         throw new InternalServerErrorException('Category not Found');
@@ -48,7 +44,7 @@ console.log(category);
   async updateProduct(
     id: string,
     productDto: ProductDto,
-    @GetUser() user: User,
+    user: User,
   ): Promise<Product> {
     try {
       const { title, description, price } = productDto;
@@ -74,7 +70,7 @@ console.log(category);
     }
   }
 
-  async getProduct(id: string, user: User): Promise<Product> {
+  async getProduct(id: string): Promise<Product> {
     try {
       const product = await this.findOne({ where: { id } });
       return product;
@@ -83,10 +79,9 @@ console.log(category);
     }
   }
 
-  async getAllProducts(user: User): Promise<Product[]> {
+  async getAllProducts(): Promise<Product[]> {
     try {
       const product = await this.find();
-      console.log(product);
       return product;
     } catch (error) {
       throw new InternalServerErrorException();

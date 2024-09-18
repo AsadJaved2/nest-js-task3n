@@ -65,19 +65,18 @@ export class ProductController {
   @Get('/:id')
   async getProduct(
     @Param('id') id: string,
-    @GetUser() user: User,
   ): Promise<Product> {
     try {
-      const product = await this.prodService.getProduct(id, user);
+      const product = await this.prodService.getProduct(id);
       return product;
     } catch (err) {
       throw new InternalServerErrorException('Failed to retrieve products');
     }
   }
   @Get('/AllProducts')
-  async getAllProducts(@GetUser() user: User): Promise<Product[]> {
+  async getAllProducts(): Promise<Product[]> {
     try {
-      const product = await this.prodService.getAllProducts(user);
+      const product = await this.prodService.getAllProducts();
       return product;
     } catch (err) {
       throw new InternalServerErrorException('Failed to retrieve products');

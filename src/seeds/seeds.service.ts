@@ -4,7 +4,7 @@ import { DataSource } from 'typeorm';
 
 @Injectable()
 export class CategorySeeder {
-  constructor(private readonly dataSource: DataSource) {}
+  constructor(private dataSource: DataSource) {}
 
   async seed() {
     await this.seedCategories();
